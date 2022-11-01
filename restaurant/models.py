@@ -65,15 +65,11 @@ class Orders(models.Model):
     class Meta:
         db_table = 'Orders'
 
-    def __str__(self):
-        return f'Table:{self.table}, Waiter:{self.waiter.name}, Is active:{self.is_active},' \
-               f' With delivery:{self.with_delivery}'
-
     table = models.ForeignKey(Tables, on_delete=models.CASCADE, null=True, blank=True)
     dishes = models.ManyToManyField(Dishes)
     start_date = models.DateTimeField('Start date', auto_now_add=True)
-    end_date = models.DateTimeField('End date')
-    total = models.PositiveIntegerField('Total sum')
+    end_date = models.DateTimeField('End date', null=True, blank=True)
+    total = models.PositiveIntegerField('Total sum', null=True, blank=True)
     waiter = models.ForeignKey(Waiters, on_delete=models.CASCADE, null=True, blank=True)
     is_active = models.BooleanField('Is active', default=True)
     with_delivery = models.BooleanField('With delivery', default=False)
