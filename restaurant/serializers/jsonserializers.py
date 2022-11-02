@@ -66,3 +66,4 @@ class DeliverySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Delivery
         fields = "__all__"
+

@@ -15,3 +15,27 @@ class PlaceOrderSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         return attrs
+
+
+class DishAddSerializer(serializers.Serializer):
+    def validate(self, attrs):
+        order_id = attrs.get('order_id')
+        dish_id = attrs.get('dish_id')
+        if not models.Orders.objects.filter(id=order_id).exists:
+            raise serializers.ValidationError(
+                'Order does not exist'
+            )
+        if not models.Dishes.objects.filter(id=dish_id).exists:
+            raise serializers.ValidationError(
+                'Dish does not exist'
+            )
+        return attrs
+
+    def create(self, validated_data):
+        order_id = validated_data.get('order_id')
+        dish_id = validated_data.get('dish_id')
+        order = models.Orders.objects.filter(id=order_id).last()
+        dish = models.Dishes.objects.filter(id=dish_id).last()
+        order.dishes.add(dish)
+        data = order.save()
+        return data
