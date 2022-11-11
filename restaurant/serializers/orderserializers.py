@@ -37,5 +37,5 @@ class DishAddSerializer(serializers.Serializer):
         order = models.Orders.objects.filter(id=order_id).last()
         dish = models.Dishes.objects.filter(id=dish_id).last()
         order.dishes.add(dish)
-        data = order.save()
-        return data
+        return_data = order.save()
+        return return_data
